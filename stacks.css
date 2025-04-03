@@ -1,0 +1,177 @@
+/* LSU Theme Colors */
+:root {
+    --lsu-purple: #461D7C;
+    --lsu-gold: #FDD023;
+}
+
+body {
+    background: var(--lsu-purple);
+    color: var(--lsu-purple);
+}
+
+.login-wrapper {
+    width: 50%;
+    background: white;
+    border-radius: 10px;
+    padding: 30px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* STACKS Image */
+.image-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+
+.stacks-image {
+    max-width: 50%;
+    height: auto;
+}
+
+/* Login Box */
+.login-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+h2 {
+    color: var(--lsu-purple);
+    text-align: center;
+}
+
+/* Center Form */
+form {
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Align only label text to left */
+label {
+    font-weight: bold;
+    color: var(--lsu-purple);
+    text-align: left;
+    display: block;
+    width: 100%;
+}
+
+/* Center input fields and make them match login button width */
+.form-control {
+    text-align: center;
+    width: 350px;
+    max-width: 100%; /* Ensures it does not shrink */
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    font-size: 16px;
+}
+
+/* Button Styling */
+.login-btn {
+    background-color: var(--lsu-purple);
+    border: none;
+    color: white;
+    transition: 0.3s;
+    padding: 15px;
+    width: 300px;
+    margin-top: 10px;
+    font-size: 15px;
+    border-radius: 10px;
+}
+
+.login-btn:hover {
+    background-color: var(--lsu-gold);
+    color: black;
+}
+
+.forgot-password {
+    color: var(--lsu-purple);
+    text-decoration: none;
+    text-align: center;
+    display: block;
+    margin-top: 10px;
+}
+
+.forgot-password:hover {
+    text-decoration: underline;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .login-wrapper {
+        width: 80%;
+    }
+    
+    .stacks-image {
+        max-width: 70%;
+    }
+    
+    form {
+        width: 80%;
+    }
+}
+
+/* LSU Theme Colors */
+:root {
+    --lsu-purple: #461D7C;
+    --lsu-gold: #FDD023;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 250px;
+    height: 100vh;
+    background-color: var(--lsu-purple);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    position: fixed;
+    left: 0;
+    top: 0;
+}
+
+.sidebar-title {
+    text-align: center;
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.sidebar-menu {
+    list-style: none;
+    padding: 0;
+}
+
+.sidebar-menu li {
+    padding: 15px;
+    margin: 5px 0;
+    background-color: var(--lsu-gold);
+    color: black;
+    text-align: center;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.sidebar-menu li:hover {
+    background-color: white;
+}
+
+/* Main Content */
+.content {
+    margin-left: 270px; /* Push content right */
+    padding: 20px;
+}

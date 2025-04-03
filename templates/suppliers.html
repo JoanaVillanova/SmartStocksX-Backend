@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SmartStockX - Supplier Management</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+  <style>
+    :root {
+      --lsu-purple: #461D7C;
+      --lsu-gold: #FDD023;
+    }
+
+    body {
+      display: flex;
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f8f9fa;
+    }
+
+    .sidebar {
+      width: 240px;
+      background: var(--lsu-purple);
+      color: white;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 20px 0;
+    }
+
+    .sidebar h4 {
+      text-align: center;
+      font-weight: bold;
+      padding: 0 20px;
+      margin-bottom: 30px;
+    }
+
+    .sidebar .nav-link {
+      color: white;
+      font-size: 16px;
+      padding: 10px 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: 0.3s;
+    }
+
+    .sidebar .nav-link:hover,
+    .sidebar .nav-link.active {
+      background-color: var(--lsu-gold);
+      color: var(--lsu-purple);
+      font-weight: bold;
+      border-radius: 5px;
+    }
+
+    .main {
+      flex-grow: 1;
+      padding: 30px;
+    }
+
+    .dashboard-title {
+      background-color: var(--lsu-purple);
+      color: white;
+      padding: 15px 25px;
+      border-radius: 10px;
+      font-size: 1.5rem;
+      margin-bottom: 25px;
+    }
+
+    .table thead {
+      background-color: var(--lsu-gold);
+      color: var(--lsu-purple);
+    }
+
+    .modal-header.bg-warning {
+      background-color: var(--lsu-gold) !important;
+      color: var(--lsu-purple);
+    }
+
+    .modal-header.bg-primary {
+      color: white;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="sidebar">
+    <div>
+      <h4><i class="bi bi-box"></i> SmartStockX</h4>
+      <ul class="nav flex-column">
+        <li class="nav-item">
+          <a class="nav-link" href="Dashboard.html"><i class="bi bi-house-door"></i> Dashboard</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="products.html"><i class="bi bi-box-seam"></i> Products</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="suppliers.html"><i class="bi bi-truck"></i> Suppliers</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="supplierdetail.html"><i class="bi bi-link-45deg"></i> Supplier Details</a></li>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="User.html"><i class="bi bi-person"></i> Users</a>
+        </li>
+      </ul>
+    </div>
+    <div class="bottom-links px-3">
+      <hr class="text-white" />
+      <a class="nav-link" href="settings.html"><i class="bi bi-gear"></i> Settings</a>
+      <a class="nav-link text-danger" href="#"><i class="bi bi-box-arrow-right"></i> Sign Out</a>
+    </div>
+  </div>
+
+  <div class="main">
+    <div class="dashboard-title">🚚 Supplier Management</div>
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h4 class="text-dark">Supplier List</h4>
+      <button class="btn btn-warning text-dark fw-bold" data-bs-toggle="modal" data-bs-target="#addSupplierModal">
+        <i class="bi bi-plus-circle"></i> Add Supplier
+      </button>
+    </div>
+
+    <div class="table-responsive">
+      <table class="table table-bordered table-hover text-center align-middle bg-white">
+        <thead>
+          <tr>
+            <th>SupplierID</th>
+            <th>Name</th>
+            <th>Contact</th>
+            <th>Website</th>
+            <th>ManagerID</th>
+            <th>Created At</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td>WebstaurantStore</td>
+            <td><a href="tel:+18005551234">+1 (800) 555-1234</a></td>
+            <td><a href="https://www.webstaurantstore.com/" target="_blank">webstaurantstore.com</a></td>
+            <td></td>
+            <td>2025-03-10 10:00</td>
+            <td>
+              <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#editSupplierModal"><i class="bi bi-pencil-square"></i></button>
+              <button class="btn btn-sm btn-danger ms-2"><i class="bi bi-trash"></i></button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Add Supplier Modal -->
+  <div class="modal fade" id="addSupplierModal" tabindex="-1" aria-labelledby="addSupplierLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <form class="modal-content">
+        <div class="modal-header bg-warning">
+          <h5 class="modal-title" id="addSupplierLabel">Add Supplier</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <input type="text" class="form-control mb-2" placeholder="Name" required>
+          <input type="text" class="form-control mb-2" placeholder="Contact Info" required>
+          <input type="url" class="form-control mb-2" placeholder="Website">
+          <input type="text" class="form-control mb-2" placeholder="ManagerID">
+          <input type="datetime-local" class="form-control mb-2" placeholder="Created At" value="">
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-success">Add Supplier</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Edit Supplier Modal -->
+  <div class="modal fade" id="editSupplierModal" tabindex="-1" aria-labelledby="editSupplierLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <form class="modal-content">
+        <div class="modal-header bg-primary text-white">
+          <h5 class="modal-title" id="editSupplierLabel">Edit Supplier</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <input type="text" class="form-control mb-2" placeholder="Name" required>
+          <input type="text" class="form-control mb-2" placeholder="Contact Info" required>
+          <textarea class="form-control mb-2" placeholder="Address"></textarea>
+          <input type="url" class="form-control mb-2" placeholder="Website">
+          <input type="datetime-local" class="form-control mb-2" placeholder="Created At">
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary">Save Changes</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

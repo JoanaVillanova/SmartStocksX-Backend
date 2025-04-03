@@ -1,0 +1,140 @@
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SmartStockX - Settings</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+  <style>
+    :root {
+      --lsu-purple: #461D7C;
+      --lsu-gold: #FDD023;
+    }
+    body {
+      background-color: #f8f9fa;
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+    }
+    .sidebar {
+      width: 240px;
+      background: var(--lsu-purple);
+      color: white;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 20px 0;
+    }
+    .sidebar h4 {
+      text-align: center;
+      font-weight: bold;
+      padding: 0 20px;
+      margin-bottom: 30px;
+    }
+    .sidebar .nav-link {
+      color: white;
+      font-size: 16px;
+      padding: 10px 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: 0.3s;
+    }
+    .sidebar .nav-link:hover,
+    .sidebar .nav-link.active {
+      background-color: var(--lsu-gold);
+      color: var(--lsu-purple);
+      font-weight: bold;
+      border-radius: 5px;
+    }
+    .main {
+      flex-grow: 1;
+      padding: 30px;
+    }
+    .settings-title {
+      background-color: var(--lsu-purple);
+      color: white;
+      padding: 15px 25px;
+      border-radius: 10px;
+      font-size: 1.5rem;
+      margin-bottom: 25px;
+    }
+  </style>
+</head>
+<body>
+  <!-- Sidebar -->
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div>
+      <h4><i class="bi bi-box"></i> SmartStockX</h4>
+      <ul class="nav flex-column">
+        <li class="nav-item">
+          <a class="nav-link" href="Dashboard.html"><i class="bi bi-house-door"></i> Dashboard</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="products.html"><i class="bi bi-box-seam"></i> Products</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="suppliers.html"><i class="bi bi-truck"></i> Suppliers</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="supplierdetail.html"><i class="bi bi-link-45deg"></i> Supplier Details</a></li>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="User.html"><i class="bi bi-person"></i> Users</a>
+        </li>
+      </ul>
+    </div>
+    <div class="bottom-links px-3">
+      <hr class="text-white" />
+      <a class="nav-link active" href="settings.html"><i class="bi bi-gear"></i> Settings</a>
+      <a class="nav-link text-danger" href="#"><i class="bi bi-box-arrow-right"></i> Sign Out</a>
+    </div>
+  </div>
+
+  <!-- Main Settings Content -->
+  <div class="main">
+    <div class="settings-title">⚙️ Settings</div>
+
+    <div class="card p-4 mb-4 shadow-sm">
+      <h5 class="mb-3 text-dark">Change Password</h5>
+      <form>
+        <div class="mb-3">
+          <label class="form-label">Current Password</label>
+          <input type="password" class="form-control" placeholder="Enter current password" required>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">New Password</label>
+          <input type="password" class="form-control" placeholder="Enter new password" required>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Confirm New Password</label>
+          <input type="password" class="form-control" placeholder="Confirm new password" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Update Password</button>
+      </form>
+    </div>
+
+    <div class="card p-4 shadow-sm">
+      <h5 class="mb-3 text-dark">Theme Preferences</h5>
+      <div class="form-check form-switch">
+        <input class="form-check-input" type="checkbox" id="darkModeSwitch">
+        <label class="form-check-label" for="darkModeSwitch">Enable Dark Mode</label>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const switchToggle = document.getElementById('darkModeSwitch');
+    switchToggle.addEventListener('change', () => {
+      document.body.classList.toggle('bg-dark');
+      document.body.classList.toggle('text-white');
+    });
+  </script>
+</body>
+</html>
