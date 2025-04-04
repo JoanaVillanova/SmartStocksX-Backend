@@ -152,29 +152,33 @@
         <a href="products" class="stretched-link"></a>
         <div class="card total-products"> 
           <h5>Total Products</h5>
-          <h2>5,000</h2>
+          <h2 id="total-products">0</h2>
         </div>
+        
       </div>
       <div class="col-md-3">
         <a href="products" class="stretched-link"></a>
         <div class="card low-stock">
           <h5>Low Stock</h5>
-          <h2>10</h2>
+          <h2 id="low-stock-count">0</h2>
         </div>
+        
       </div>
       <div class="col-md-3">
         <a href="products" class="stretched-link"></a>
         <div class="card total-products text-white" style="background-color: green;">
           <h5 class="card-title">In Stock</h5>
-          <h2 id="in-stock-count">15</h2>
+          <h2 id="in-stock-count">0</h2>
         </div>
+        
       </div>
       <div class="col-md-3">
         <a href="products" class="stretched-link"></a>
         <div class="card out-of-stock">
           <h5>Out of Stock</h5>
-          <h2>5</h2>
+          <h2 id="out-of-stock-count">0</h2>
         </div>
+        
       </div>
     </div>
 
@@ -210,5 +214,20 @@
       }
     });
   </script>
+
+<script>
+  window.addEventListener('DOMContentLoaded', () => {
+    fetch('/api/dashboard-counts')
+      .then(response => response.json())
+      .then(data => {
+        document.getElementById('total-products').textContent = data.total;
+        document.getElementById('low-stock-count').textContent = data.low;
+        document.getElementById('in-stock-count').textContent = data.in;
+        document.getElementById('out-of-stock-count').textContent = data.out;
+      })
+      .catch(error => console.error('Error loading dashboard counts:', error));
+  });
+</script>
+
 </body>
 </html>
