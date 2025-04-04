@@ -24,6 +24,8 @@
     }
 
     .sidebar {
+      position: relative;
+      z-index: 1;
       width: 240px;
       background: var(--lsu-purple);
       color: white;
@@ -62,6 +64,9 @@
     .main {
       flex-grow: 1;
       padding: 30px;
+      z-index: 0;
+      position: relative;
+      overflow: hidden;
     }
 
     .dashboard-title {
@@ -74,6 +79,7 @@
     }
 
     .card {
+      position: relative;
       padding: 25px;
       text-align: center;
       border-radius: 12px;
@@ -114,7 +120,7 @@
     <h4><i class="bi bi-box"></i> SmartStockX</h4>
     <ul class="nav flex-column">
       <li class="nav-item">
-        <a class="nav-link active" href="/dashboard"><i class="bi bi-house-door"></i> Dashboard</a>
+        <a class="nav-link active" href="/Dashboard"><i class="bi bi-house-door"></i> Dashboard</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="/products"><i class="bi bi-box-seam"></i> Products</a>
@@ -126,7 +132,7 @@
         <a class="nav-link" href="/supplierdetail"><i class="bi bi-link-45deg"></i> Supplier Details</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="/users"><i class="bi bi-person"></i> Users</a>
+        <a class="nav-link" href="/User"><i class="bi bi-person"></i> Users</a>
       </li>
     </ul>
   </div>
@@ -143,28 +149,28 @@
 
     <div class="row g-4">
       <div class="col-md-3"> 
-        <a href="products.html" class="stretched-link"></a>
+        <a href="products" class="stretched-link"></a>
         <div class="card total-products"> 
           <h5>Total Products</h5>
           <h2>5,000</h2>
         </div>
       </div>
       <div class="col-md-3">
-        <a href="products.html" class="stretched-link"></a>
+        <a href="products" class="stretched-link"></a>
         <div class="card low-stock">
           <h5>Low Stock</h5>
           <h2>10</h2>
         </div>
       </div>
       <div class="col-md-3">
-        <a href="products.html" class="stretched-link"></a>
+        <a href="products" class="stretched-link"></a>
         <div class="card total-products text-white" style="background-color: green;">
           <h5 class="card-title">In Stock</h5>
           <h2 id="in-stock-count">15</h2>
         </div>
       </div>
       <div class="col-md-3">
-        <a href="products.html" class="stretched-link"></a>
+        <a href="products" class="stretched-link"></a>
         <div class="card out-of-stock">
           <h5>Out of Stock</h5>
           <h2>5</h2>

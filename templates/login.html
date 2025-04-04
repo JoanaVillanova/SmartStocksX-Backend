@@ -109,7 +109,7 @@
   if (response.ok) {
     // Login successful
     localStorage.setItem('user', JSON.stringify(data.user)); // Store user data locally
-    window.location.href = 'dashboard.html'; // Redirect to dashboard
+    window.location.href = '/Dashboard'; // Redirect to dashboard
   } else {
     // Show error
     document.getElementById('error-message').classList.remove('d-none');

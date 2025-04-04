@@ -104,25 +104,25 @@
       <h4><i class="bi bi-box"></i> SmartStockX</h4>
       <ul class="nav flex-column">
         <li class="nav-item">
-          <a class="nav-link" href="Dashboard.html"><i class="bi bi-house-door"></i> Dashboard</a>
+          <a class="nav-link" href="Dashboard"><i class="bi bi-house-door"></i> Dashboard</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link active" href="products.html"><i class="bi bi-box-seam"></i> Products</a>
+          <a class="nav-link active" href="products"><i class="bi bi-box-seam"></i> Products</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="suppliers.html"><i class="bi bi-truck"></i> Suppliers</a>
+          <a class="nav-link" href="suppliers"><i class="bi bi-truck"></i> Suppliers</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="supplierdetail.html"><i class="bi bi-link-45deg"></i> Supplier Details</a></li>
+          <a class="nav-link" href="supplierdetail"><i class="bi bi-link-45deg"></i> Supplier Details</a></li>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="User.html"><i class="bi bi-person"></i> Users</a>
+          <a class="nav-link" href="User"><i class="bi bi-person"></i> Users</a>
         </li>
       </ul>
     </div>
     <div class="bottom-links px-3">
       <hr class="text-white" />
-      <a class="nav-link" href="settings.html"><i class="bi bi-gear"></i> Settings</a>
+      <a class="nav-link" href="settings"><i class="bi bi-gear"></i> Settings</a>
       <a class="nav-link text-danger" href="#"><i class="bi bi-box-arrow-right"></i> Sign Out</a>
     </div>
   </div>
@@ -157,7 +157,7 @@
             <th>Actions</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody id="product-table-body">
         </tbody>
       </table>
     </div>
@@ -329,5 +329,43 @@ document.querySelector("#editProductModal form").addEventListener("submit", func
 });
 
 </script>
+<script>
+  window.addEventListener('DOMContentLoaded', function () {
+    fetch('/api/products')
+      .then(response => response.json())
+      .then(products => {
+        const tbody = document.getElementById('product-table-body');
+        tbody.innerHTML = '';
+  
+        products.forEach((product, index) => {
+          const badgeClass =
+            product.StockStatus === 'In Stock' ? 'success' :
+            product.StockStatus === 'Low Stock' ? 'warning text-dark' :
+            'danger';
+  
+          const row = document.createElement('tr');
+          row.innerHTML = `
+            <td>${index + 101}</td>
+            <td>${product.ProductName}</td>
+            <td>${product.Category}</td>
+            <td>${product.Brand}</td>
+            <td>${product.Quantity}</td>
+            <td>${product.Threshold}</td>
+            <td><span class="badge bg-${badgeClass}">${product.StockStatus}</span></td>
+            <td>
+              <button class="btn btn-sm btn-primary edit-btn"><i class="bi bi-pencil-square"></i></button>
+              <button class="btn btn-sm btn-danger ms-2 delete-btn"><i class="bi bi-trash"></i></button>
+            </td>
+          `;
+          tbody.appendChild(row);
+        });
+      })
+      .catch(error => {
+        console.error('Error loading products:', error);
+      });
+  });
+  </script>
+  
+  
 </body>
 </html>

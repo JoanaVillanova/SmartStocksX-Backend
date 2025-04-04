@@ -8,7 +8,7 @@ CORS(app)
 # SQL Server Connection
 conn = pyodbc.connect(
     'DRIVER={ODBC Driver 17 for SQL Server};'
-    'SERVER=DESKTOP-T8Q4KAO;'
+    'SERVER=GRWILBANKS;'
     'DATABASE=SmartStocksX;'
     'Trusted_Connection=yes;'
 )
@@ -18,7 +18,7 @@ conn = pyodbc.connect(
 def login_page():
     return render_template('login.html')
 
-@app.route('/dashboard')
+@app.route('/Dashboard')
 def dashboard():
     return render_template('Dashboard.html')
 
@@ -30,11 +30,11 @@ def products():
 def suppliers():
     return render_template('suppliers.html')
 
-@app.route('/supplierdetails')
+@app.route('/supplierdetail')
 def supplierdetails():
     return render_template('supplierdetail.html')
 
-@app.route('/users')
+@app.route('/User')
 def users():
     return render_template('User.html')
 
@@ -64,6 +64,29 @@ def login():
         })
     else:
         return jsonify({"message": "Invalid email or password"}), 401
+    
+# === Products API ===
+@app.route('/api/products', methods=['GET'])
+def get_products():
+    cursor = conn.cursor()
+    cursor.execute("SELECT ProductID, ProductName, Category, Brand, Quantity, Threshold, StockStatus FROM Products")
+    rows = cursor.fetchall()
+
+    product_list = []
+    for row in rows:
+        product_list.append({
+            'ProductID': row[0],
+            'ProductName': row[1],
+            'Category': row[2],
+            'Brand': row[3],
+            'Quantity': row[4],
+            'Threshold': row[5],
+            'StockStatus': row[6]
+        })
+
+    return jsonify(product_list)
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)
