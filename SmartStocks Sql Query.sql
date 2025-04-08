@@ -129,3 +129,39 @@ BEGIN
 END
 GO
 
+-- Stored Procedures
+
+USE SmartStocksX;
+GO
+
+CREATE PROCEDURE AddProduct
+    @ProductName VARCHAR(150),
+    @Category VARCHAR(100),
+    @Brand VARCHAR(100),
+    @Quantity INT,
+    @Threshold INT
+AS
+BEGIN
+    DECLARE @StockStatus VARCHAR(50)
+
+    IF @Quantity = 0 AND @Threshold = 0
+        SET @StockStatus = 'Out of Stock'
+    ELSE IF @Quantity <= @Threshold
+        SET @StockStatus = 'Low Stock'
+    ELSE
+        SET @StockStatus = 'In Stock'
+
+    INSERT INTO Products (ProductName, Category, Brand, Quantity, Threshold, StockStatus)
+    VALUES (@ProductName, @Category, @Brand, @Quantity, @Threshold, @StockStatus)
+END;
+GO
+
+EXEC AddProduct 
+    @ProductName = 'Test Boba',
+    @Category = 'Boba',
+    @Brand = 'BobaBlast',
+    @Quantity = 3,
+    @Threshold = 5;
+
+
+select * from Products
