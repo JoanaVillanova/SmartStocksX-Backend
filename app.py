@@ -95,22 +95,12 @@ def add_product():
     quantity = data.get('Quantity')
     threshold = data.get('Threshold')
 
-    # Auto-calculate StockStatus
-    if quantity == 0 and threshold == 0:
-        stock_status = 'Out of Stock'
-    elif quantity <= threshold:
-        stock_status = 'Low Stock'
-    else:
-        stock_status = 'In Stock'
-
     cursor = conn.cursor()
-    cursor.execute("""
-        INSERT INTO Products (ProductName, Category, Brand, Quantity, Threshold, StockStatus)
-        VALUES (?, ?, ?, ?, ?, ?)
-    """, (name, category, brand, quantity, threshold, stock_status))
+    cursor.execute("EXEC AddProduct ?, ?, ?, ?, ?", (name, category, brand, quantity, threshold))
     conn.commit()
 
-    return jsonify({'message': 'Product added successfully'}), 201
+    return jsonify({'message': 'Product added successfully using stored procedure'}), 201
+
 
 @app.route('/api/update-product/<int:product_id>', methods=['PUT'])
 def update_product(product_id):
@@ -177,3 +167,4 @@ def dashboard_counts():
 
 if __name__ == '__main__':
     app.run(debug=True)
+
