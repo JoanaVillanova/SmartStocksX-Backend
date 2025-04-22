@@ -1,10 +1,9 @@
-
-
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>SmartStockX - User Management</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
@@ -13,12 +12,14 @@
       --lsu-purple: #461D7C;
       --lsu-gold: #FDD023;
     }
+
     body {
       display: flex;
       margin: 0;
       font-family: 'Segoe UI', sans-serif;
       background-color: #f8f9fa;
     }
+
     .sidebar {
       width: 240px;
       background: var(--lsu-purple);
@@ -29,12 +30,14 @@
       justify-content: space-between;
       padding: 20px 0;
     }
+
     .sidebar h4 {
       text-align: center;
       font-weight: bold;
       padding: 0 20px;
       margin-bottom: 30px;
     }
+
     .sidebar .nav-link {
       color: white;
       font-size: 16px;
@@ -44,6 +47,7 @@
       gap: 10px;
       transition: 0.3s;
     }
+
     .sidebar .nav-link:hover,
     .sidebar .nav-link.active {
       background-color: var(--lsu-gold);
@@ -51,10 +55,12 @@
       font-weight: bold;
       border-radius: 5px;
     }
+
     .main {
       flex-grow: 1;
       padding: 30px;
     }
+
     .dashboard-title {
       background-color: var(--lsu-purple);
       color: white;
@@ -63,14 +69,17 @@
       font-size: 1.5rem;
       margin-bottom: 25px;
     }
+
     .table thead {
       background-color: var(--lsu-gold);
       color: var(--lsu-purple);
     }
+
     .modal-header.bg-warning {
       background-color: var(--lsu-gold) !important;
       color: var(--lsu-purple);
     }
+
     .modal-header.bg-primary {
       color: white;
     }
@@ -92,7 +101,8 @@
           <a class="nav-link" href="suppliers"><i class="bi bi-truck"></i> Suppliers</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="supplierdetail"><i class="bi bi-link-45deg"></i> Supplier Details</a></li>
+          <a class="nav-link" href="supplierdetail"><i class="bi bi-link-45deg"></i> Supplier Details</a>
+        </li>
         </li>
         <li class="nav-item">
           <a class="nav-link active" href="User"><i class="bi bi-person"></i> Users</a>
@@ -122,7 +132,6 @@
             <th>User ID</th>
             <th>Name</th>
             <th>Email</th>
-            <th>Phone</th>
             <th>Role</th>
             <th>Password</th>
             <th>Status</th>
@@ -131,26 +140,27 @@
         </thead>
         <tbody>
           <tr>
-            <td>1001 <button class="btn btn-sm btn-outline-info ms-2" data-bs-toggle="collapse" data-bs-target="#userDetails1" aria-expanded="false" aria-controls="userDetails1"><i class="bi bi-plus-circle"></i></button></td>
+            <td>1001 <button class="btn btn-sm btn-outline-info ms-2" data-bs-toggle="collapse"
+                data-bs-target="#userDetails1" aria-expanded="false" aria-controls="userDetails1"><i
+                  class="bi bi-plus-circle"></i></button></td>
             <td>Jane Doe</td>
             <td>jane@example.com</td>
-            <td>+1 (555) 123-4567</td>
             <td>Owner</td>
             <td>admin123</td>
             </td>
             <td><span class="badge bg-success">Active</span></td>
             <td>
-              <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#editUserModal"><i class="bi bi-pencil-square"></i></button>
+              <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#editUserModal"><i
+                  class="bi bi-pencil-square"></i></button>
               <button class="btn btn-sm btn-danger ms-2"><i class="bi bi-trash"></i></button>
             </td>
           </tr>
-        
-<tr class="collapse bg-light" id="userDetails1">
-  <td colspan="8" class="text-start">
-    <strong>Last Login:</strong> 2025-03-28 10:45 AM<br>
-    <strong>Created At:</strong> 2024-09-01 09:00 AM
-  </td>
-</tr>
+
+          <tr class="collapse bg-light" id="userDetails1">
+            <td colspan="8" class="text-start">
+              <strong>Created At:</strong> 2024-09-01 09:00 AM
+            </td>
+          </tr>
 
         </tbody>
       </table>
@@ -168,16 +178,14 @@
         <div class="modal-body">
           <input type="text" class="form-control mb-2" placeholder="Full Name" required>
           <input type="email" class="form-control mb-2" placeholder="Email" required>
-          <input type="tel" class="form-control mb-2" placeholder="Phone">
           <input type="password" class="form-control mb-2" placeholder="Password" required>
-<select class="form-select mb-2" required>
+          <select class="form-select mb-2" required>
             <option selected disabled>Select Role</option>
             <option>Owner</option>
             <option>Manager</option>
             <option>Employee</option>
           </select>
-          <input type="password" class="form-control mb-2" placeholder="Password" required>
-<select class="form-select mb-2" required>
+          <select class="form-select mb-2" required>
             <option selected disabled>Status</option>
             <option>Active</option>
             <option>Inactive</option>
@@ -202,16 +210,14 @@
         <div class="modal-body">
           <input type="text" class="form-control mb-2" placeholder="Full Name" required>
           <input type="email" class="form-control mb-2" placeholder="Email" required>
-          <input type="tel" class="form-control mb-2" placeholder="Phone">
           <input type="password" class="form-control mb-2" placeholder="Password" required>
-<select class="form-select mb-2" required>
+          <select class="form-select mb-2" required>
             <option selected disabled>Select Role</option>
             <option>Owner</option>
             <option>Manager</option>
             <option>Employee</option>
           </select>
-          <input type="password" class="form-control mb-2" placeholder="Password" required>
-<select class="form-select mb-2" required>
+          <select class="form-select mb-2" required>
             <option selected disabled>Status</option>
             <option>Active</option>
             <option>Inactive</option>
@@ -224,7 +230,136 @@
       </form>
     </div>
   </div>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const userTableBody = document.querySelector("tbody");
+      const addUserForm = document.querySelector("#addUserModal form");
+      const editUserForm = document.querySelector("#editUserModal form");
+
+      let currentEditUserId = null;
+
+      // 1. Fetch and display users
+      function fetchUsers() {
+        fetch('/api/users')
+          .then(response => response.json())
+          .then(users => {
+            userTableBody.innerHTML = "";
+            users.forEach(user => {
+              userTableBody.innerHTML += `
+                <tr>
+                    <td>${user.UserID}</td>
+                    <td>${user.Username}</td>
+                    <td>${user.Email}</td>
+                    <td>${user.Role}</td>
+                    <td>${user.Password}</td>
+                    <td><span class="badge ${user.Status === 'Active' ? 'bg-success' : 'bg-secondary'}">${user.Status}</span></td>
+                    <td>
+                        <button class="btn btn-sm btn-primary edit-btn" data-id="${user.UserID}"><i class="bi bi-pencil-square"></i></button>
+                        <button class="btn btn-sm btn-danger delete-btn" data-id="${user.UserID}"><i class="bi bi-trash"></i></button>
+                    </td>
+                </tr>
+              `;
+            });
+          });
+      }
+
+      fetchUsers();  // Initial load
+
+      // 2. Add User
+      addUserForm.addEventListener("submit", function (e) {
+        e.preventDefault();
+        const inputs = addUserForm.querySelectorAll("input, select");
+        const userData = {
+          Username: inputs[0].value,
+          Email: inputs[1].value,
+          Password: inputs[2].value,
+          Role: inputs[3].value,
+          Status: inputs[4].value
+        };
+
+        fetch('/api/add-user', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(userData)
+        })
+          .then(response => response.json())
+          .then(data => {
+            fetchUsers();
+            const modal = bootstrap.Modal.getInstance(document.getElementById('addUserModal'));
+            modal.hide();
+            addUserForm.reset();
+          });
+      });
+
+      // 3. Edit User (populate and show modal)
+      userTableBody.addEventListener("click", function (e) {
+        if (e.target.closest(".edit-btn")) {
+          const userId = e.target.closest(".edit-btn").dataset.id;
+          currentEditUserId = userId;
+
+          fetch(`/api/users`)
+            .then(response => response.json())
+            .then(users => {
+              const user = users.find(u => u.UserID == userId);
+              const inputs = editUserForm.querySelectorAll("input, select");
+              inputs[0].value = user.Username;
+              inputs[1].value = user.Email;
+              inputs[2].value = user.Password;
+              inputs[3].value = user.Role;
+              inputs[4].value = user.Status;
+
+              // 🟢 Show the modal
+              const modal = new bootstrap.Modal(document.getElementById('editUserModal'));
+              modal.show();
+            });
+        }
+      });
+
+      // 4. Submit update
+      editUserForm.addEventListener("submit", function (e) {
+        e.preventDefault();
+        const inputs = editUserForm.querySelectorAll("input, select");
+
+        const userData = {
+          Username: inputs[0].value,
+          Email: inputs[1].value,
+          Password: inputs[2].value,
+          Role: inputs[3].value,
+          Status: inputs[4].value
+        };
+
+        fetch(`/api/update-user/${currentEditUserId}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(userData)
+        })
+          .then(response => response.json())
+          .then(data => {
+            fetchUsers();
+            const modal = bootstrap.Modal.getInstance(document.getElementById('editUserModal'));
+            modal.hide();
+          });
+      });
+
+      // 5. Delete User
+      userTableBody.addEventListener("click", function (e) {
+        if (e.target.closest(".delete-btn")) {
+          const userId = e.target.closest(".delete-btn").dataset.id;
+          if (confirm("Are you sure you want to delete this user?")) {
+            fetch(`/api/delete-user/${userId}`, {
+              method: 'DELETE'
+            })
+              .then(response => response.json())
+              .then(data => {
+                fetchUsers();
+              });
+          }
+        }
+      });
+    });
+  </script>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>

@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, jsonify
 from flask_cors import CORS
 import pyodbc
+from functools import wraps
 
 app = Flask(__name__)
 CORS(app)
@@ -8,11 +9,25 @@ CORS(app)
 # SQL Server Connection
 conn = pyodbc.connect(
     'DRIVER={ODBC Driver 17 for SQL Server};'
-    'SERVER=GRWILBANKS;'
+    'SERVER=DESKTOP-T8Q4KAO;'
     'DATABASE=SmartStocksX;'
     'Trusted_Connection=yes;'
 )
+def role_required(allowed_roles):
+    def decorator(f):
+        @wraps(f)
+        def wrapper(*args, **kwargs):
+            user_id = request.headers.get('UserID')  # Assuming frontend sends UserID
+            cursor = conn.cursor()
+            cursor.execute("SELECT Role FROM Users WHERE UserID = ?", (user_id,))
+            row = cursor.fetchone()
 
+            if not row or row[0] not in allowed_roles:
+                return jsonify({'error': 'Access denied'}), 403
+
+            return f(*args, **kwargs)
+        return wrapper
+    return decorator
 # === Page Routes ===
 @app.route('/')
 def login_page():
@@ -94,9 +109,11 @@ def add_product():
     brand = data.get('Brand')
     quantity = data.get('Quantity')
     threshold = data.get('Threshold')
+    supplier_id = data.get('SupplierID')  # Add SupplierID here
 
     cursor = conn.cursor()
-    cursor.execute("EXEC AddProduct ?, ?, ?, ?, ?", (name, category, brand, quantity, threshold))
+    cursor.execute("EXEC AddProduct ?, ?, ?, ?, ?, ?", 
+                   (name, category, brand, quantity, threshold, supplier_id))
     conn.commit()
 
     return jsonify({'message': 'Product added successfully using stored procedure'}), 201
@@ -227,6 +244,93 @@ def delete_supplier(supplier_id):
     conn.commit()
     return jsonify({'message': 'Supplier deleted successfully'})
 
+@app.route('/api/users', methods=['GET'])
+def get_users():
+    cursor = conn.cursor()
+    cursor.execute("SELECT UserID, Username, Email, Role, Password, Status FROM Users")
+    rows = cursor.fetchall()
+
+    users = []
+    for row in rows:
+        users.append({
+            "UserID": row.UserID,
+            "Username": row.Username,
+            "Email": row.Email,
+            "Role": row.Role,
+            "Password": row.Password,
+            "Status": row.Status
+        })
+
+    return jsonify(users)
+@app.route('/api/add-user', methods=['POST'])
+def add_user():
+    data = request.json
+    username = data.get('Username')
+    email = data.get('Email')
+    password = data.get('Password')
+    role = data.get('Role')
+    status = data.get('Status')
+
+    cursor = conn.cursor()
+    cursor.execute("""
+        INSERT INTO Users (Username, Email, Password, Role, Status, CreatedAt)
+        VALUES (?, ?, ?, ?, ?, GETDATE())
+    """, (username, email, password, role, status))
+    conn.commit()
+
+    return jsonify({'message': 'User added successfully'})
+
+@app.route('/api/update-user/<int:user_id>', methods=['PUT'])
+def update_user(user_id):
+    data = request.json
+    username = data.get('Username')
+    email = data.get('Email')
+    password = data.get('Password')
+    role = data.get('Role')
+    status = data.get('Status')
+
+    cursor = conn.cursor()
+    cursor.execute("""
+        UPDATE Users
+        SET Username = ?, Email = ?, Password = ?, Role = ?, Status = ?
+        WHERE UserID = ?
+    """, (username, email, password, role, status, user_id))
+    conn.commit()
+
+    return jsonify({'message': 'User updated successfully'})
+
+@app.route('/api/delete-user/<int:user_id>', methods=['DELETE'])
+def delete_user(user_id):
+    cursor = conn.cursor()
+    cursor.execute("DELETE FROM Users WHERE UserID = ?", (user_id,))
+    conn.commit()
+    return jsonify({'message': 'User deleted successfully'})
+
+@app.route('/api/supplierdetail', methods=['GET'])
+def get_supplier_detail():
+    cursor = conn.cursor()
+    cursor.execute("""
+        SELECT 
+            sd.SupplierDetailsID,
+            s.Name AS SupplierName,
+            p.ProductName,
+            sd.CreatedAt
+        FROM SupplierDetails sd
+        JOIN Suppliers s ON sd.SupplierID = s.SupplierID
+        JOIN Products p ON sd.ProductID = p.ProductID
+    """)
+    rows = cursor.fetchall()
+
+    details = []
+    for row in rows:
+        details.append({
+            'SupplierDetailID': row[0],
+            'SupplierName': row[1],
+            'ProductName': row[2],
+            'CreatedAt': row[3].strftime('%Y-%m-%d %H:%M') if row[3] else None
+        })
+
+    return jsonify(details)
 
 
 if __name__ == '__main__':
