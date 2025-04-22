@@ -109,7 +109,7 @@ def add_product():
     brand = data.get('Brand')
     quantity = data.get('Quantity')
     threshold = data.get('Threshold')
-    supplier_id = data.get('SupplierID')  # Add SupplierID here
+    supplier_id = data.get('SupplierName')  
 
     cursor = conn.cursor()
     cursor.execute("EXEC AddProduct ?, ?, ?, ?, ?, ?", 
@@ -332,7 +332,55 @@ def get_supplier_detail():
 
     return jsonify(details)
 
+@app.route('/api/delete-supplierdetail/<int:detail_id>', methods=['DELETE'])
+def delete_supplier_detail(detail_id):
+    cursor = conn.cursor()
+    cursor.execute("DELETE FROM SupplierDetails WHERE SupplierDetailsID = ?", (detail_id,))
+    conn.commit()
+    return jsonify({'message': 'Supplier detail deleted successfully'})
 
+@app.route('/api/change-password', methods=['POST'])
+def change_password():
+    data = request.json
+    current_password = data.get('currentPassword')
+    new_password = data.get('newPassword')
+
+    # Example user context (replace with session or token user)
+    user_id = 1  
+
+    cursor = conn.cursor()
+    # 1. Verify current password
+    cursor.execute("SELECT Password FROM Users WHERE UserID = ?", (user_id,))
+    user = cursor.fetchone()
+
+    if not user or user.Password != current_password:
+        return jsonify({'message': 'Current password is incorrect'}), 400
+
+    # 2. Update password
+    cursor.execute("UPDATE Users SET Password = ? WHERE UserID = ?", (new_password, user_id))
+    conn.commit()
+
+    return jsonify({'message': 'Password updated successfully'}), 200
+
+@app.route('/api/product-count-trend', methods=['GET'])
+def product_count_trend():
+    cursor = conn.cursor()
+    cursor.execute("""
+        SELECT total_products, recorded_at
+        FROM product_count_trend
+        ORDER BY recorded_at
+    """)
+    rows = cursor.fetchall()
+
+    # Prepare data
+    trend_data = []
+    for row in rows:
+        trend_data.append({
+            'total_products': row.total_products,
+            'recorded_at': row.recorded_at.strftime('%Y-%m-%d')
+        })
+
+    return jsonify(trend_data)
 if __name__ == '__main__':
     app.run(debug=True)
 
