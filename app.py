@@ -9,7 +9,7 @@ CORS(app)
 # SQL Server Connection
 conn = pyodbc.connect(
     'DRIVER={ODBC Driver 17 for SQL Server};'
-    'SERVER=DESKTOP-T8Q4KAO;'
+    'SERVER=GRWILBANKS;'
     'DATABASE=SmartStocksX;'
     'Trusted_Connection=yes;'
 )
