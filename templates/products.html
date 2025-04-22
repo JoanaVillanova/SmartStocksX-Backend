@@ -257,7 +257,7 @@
       ] = inputs;
 
       const productName = productNameInput.value.trim();
-      const supplierName = supplierNameInput.value.trim();
+      const supplierName = supplierNameInput.options[supplierNameInput.selectedIndex].textContent.trim();
       const category = categoryInput.value.trim();
       const quantity = parseInt(quantityInput.value.trim(), 10);
       const brand = brandInput.value.trim();
@@ -282,7 +282,7 @@
     });
 
     // Handle Edit/Delete
-    document.querySelector("tbody").addEventListener("click", function (e) {
+    document.getElementById("product-table-body").addEventListener("click", function (e) {
       const row = e.target.closest("tr");
       const productId = row.getAttribute("data-id");
 
@@ -329,7 +329,7 @@
       const quantity = parseInt(quantityStr, 10);
       const threshold = parseInt(thresholdStr, 10);
 
-      const response = await fetch('/api/update-product', {
+      const response = await fetch(`/api/update-product/${productId}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

@@ -112,12 +112,11 @@ def add_product():
     supplier_id = data.get('SupplierName')  
 
     cursor = conn.cursor()
-    cursor.execute("EXEC AddProduct ?, ?, ?, ?, ?, ?", 
+    cursor.execute("EXEC AddProductWithSupplier ?, ?, ?, ?, ?, ?", 
                    (name, category, brand, quantity, threshold, supplier_id))
     conn.commit()
 
-    return jsonify({'message': 'Product added successfully using stored procedure'}), 201
-
+    return jsonify({'message': 'Product added and linked to supplier successfully'}), 201
 
 @app.route('/api/update-product/<int:product_id>', methods=['PUT'])
 def update_product(product_id):
@@ -244,68 +243,6 @@ def delete_supplier(supplier_id):
     conn.commit()
     return jsonify({'message': 'Supplier deleted successfully'})
 
-@app.route('/api/users', methods=['GET'])
-def get_users():
-    cursor = conn.cursor()
-    cursor.execute("SELECT UserID, Username, Email, Role, Password, Status FROM Users")
-    rows = cursor.fetchall()
-
-    users = []
-    for row in rows:
-        users.append({
-            "UserID": row.UserID,
-            "Username": row.Username,
-            "Email": row.Email,
-            "Role": row.Role,
-            "Password": row.Password,
-            "Status": row.Status
-        })
-
-    return jsonify(users)
-@app.route('/api/add-user', methods=['POST'])
-def add_user():
-    data = request.json
-    username = data.get('Username')
-    email = data.get('Email')
-    password = data.get('Password')
-    role = data.get('Role')
-    status = data.get('Status')
-
-    cursor = conn.cursor()
-    cursor.execute("""
-        INSERT INTO Users (Username, Email, Password, Role, Status, CreatedAt)
-        VALUES (?, ?, ?, ?, ?, GETDATE())
-    """, (username, email, password, role, status))
-    conn.commit()
-
-    return jsonify({'message': 'User added successfully'})
-
-@app.route('/api/update-user/<int:user_id>', methods=['PUT'])
-def update_user(user_id):
-    data = request.json
-    username = data.get('Username')
-    email = data.get('Email')
-    password = data.get('Password')
-    role = data.get('Role')
-    status = data.get('Status')
-
-    cursor = conn.cursor()
-    cursor.execute("""
-        UPDATE Users
-        SET Username = ?, Email = ?, Password = ?, Role = ?, Status = ?
-        WHERE UserID = ?
-    """, (username, email, password, role, status, user_id))
-    conn.commit()
-
-    return jsonify({'message': 'User updated successfully'})
-
-@app.route('/api/delete-user/<int:user_id>', methods=['DELETE'])
-def delete_user(user_id):
-    cursor = conn.cursor()
-    cursor.execute("DELETE FROM Users WHERE UserID = ?", (user_id,))
-    conn.commit()
-    return jsonify({'message': 'User deleted successfully'})
-
 @app.route('/api/supplierdetail', methods=['GET'])
 def get_supplier_detail():
     cursor = conn.cursor()
@@ -381,6 +318,69 @@ def product_count_trend():
         })
 
     return jsonify(trend_data)
+
+@app.route('/api/users', methods=['GET'])
+def get_users():
+    cursor = conn.cursor()
+    cursor.execute("SELECT UserID, Username, Email, Role, Password, Status FROM Users")
+    rows = cursor.fetchall()
+
+    users = []
+    for row in rows:
+        users.append({
+            "UserID": row.UserID,
+            "Username": row.Username,
+            "Email": row.Email,
+            "Role": row.Role,
+            "Password": row.Password,
+            "Status": row.Status
+        })
+
+    return jsonify(users)
+@app.route('/api/add-user', methods=['POST'])
+def add_user():
+    data = request.json
+    username = data.get('Username')
+    email = data.get('Email')
+    password = data.get('Password')
+    role = data.get('Role')
+    status = data.get('Status')
+
+    cursor = conn.cursor()
+    cursor.execute("""
+        INSERT INTO Users (Username, Email, Password, Role, Status, CreatedAt)
+        VALUES (?, ?, ?, ?, ?, GETDATE())
+    """, (username, email, password, role, status))
+    conn.commit()
+
+    return jsonify({'message': 'User added successfully'})
+
+@app.route('/api/update-user/<int:user_id>', methods=['PUT'])
+def update_user(user_id):
+    data = request.json
+    username = data.get('Username')
+    email = data.get('Email')
+    password = data.get('Password')
+    role = data.get('Role')
+    status = data.get('Status')
+
+    cursor = conn.cursor()
+    cursor.execute("""
+        UPDATE Users
+        SET Username = ?, Email = ?, Password = ?, Role = ?, Status = ?
+        WHERE UserID = ?
+    """, (username, email, password, role, status, user_id))
+    conn.commit()
+
+    return jsonify({'message': 'User updated successfully'})
+
+@app.route('/api/delete-user/<int:user_id>', methods=['DELETE'])
+def delete_user(user_id):
+    cursor = conn.cursor()
+    cursor.execute("DELETE FROM Users WHERE UserID = ?", (user_id,))
+    conn.commit()
+    return jsonify({'message': 'User deleted successfully'})
+
 if __name__ == '__main__':
     app.run(debug=True)
 
