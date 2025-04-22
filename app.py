@@ -164,6 +164,70 @@ def dashboard_counts():
         'out': out_of_stock
     })
 
+# === Suppliers API ===
+@app.route('/api/suppliers', methods=['GET'])
+def get_suppliers():
+    cursor = conn.cursor()
+    cursor.execute("SELECT SupplierID, Name, Contact, Website, CreatedAt FROM Suppliers")
+    rows = cursor.fetchall()
+
+    suppliers = []
+    for row in rows:
+        suppliers.append({
+            "SupplierID": row.SupplierID,
+            "Name": row.Name,
+            "Contact": row.Contact,
+            "Website": row.Website,
+            "CreatedAt": row.CreatedAt.strftime('%Y-%m-%d %H:%M') if row.CreatedAt else ""
+        })
+
+    return jsonify(suppliers)
+
+@app.route('/api/add-supplier', methods=['POST'])
+def add_supplier():
+    data = request.get_json()
+    cursor = conn.cursor()
+    cursor.execute("""
+        INSERT INTO Suppliers (Name, Contact, Website, CreatedAt)
+        VALUES (?, ?, ?, ?)
+    """, (
+        data.get('SupplierName'),
+        data.get('ContactInfo'),
+        data.get('Website'),
+        data.get('CreatedAt')
+    ))
+    conn.commit()
+    return jsonify({'message': 'Supplier added successfully'}), 201
+
+@app.route('/api/update-supplier/<int:supplier_id>', methods=['PUT'])
+def update_supplier(supplier_id):
+    data = request.get_json()
+    cursor = conn.cursor()
+    cursor.execute("""
+        UPDATE Suppliers SET
+        Name = ?,
+        Contact = ?,
+        Website = ?,
+        CreatedAt = ?
+        WHERE SupplierID = ?
+    """, (
+        data.get('SupplierName'),
+        data.get('ContactInfo'),
+        data.get('Website'),
+        data.get('CreatedAt'),
+        supplier_id
+    ))
+    conn.commit()
+    return jsonify({'message': 'Supplier updated successfully'})
+
+@app.route('/api/delete-supplier/<int:supplier_id>', methods=['DELETE'])
+def delete_supplier(supplier_id):
+    cursor = conn.cursor()
+    cursor.execute("DELETE FROM Suppliers WHERE SupplierID = ?", supplier_id)
+    conn.commit()
+    return jsonify({'message': 'Supplier deleted successfully'})
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)

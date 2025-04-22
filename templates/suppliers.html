@@ -90,21 +90,11 @@
     <div>
       <h4><i class="bi bi-box"></i> SmartStockX</h4>
       <ul class="nav flex-column">
-        <li class="nav-item">
-          <a class="nav-link" href="Dashboard"><i class="bi bi-house-door"></i> Dashboard</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="products"><i class="bi bi-box-seam"></i> Products</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link active" href="suppliers"><i class="bi bi-truck"></i> Suppliers</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="supplierdetail"><i class="bi bi-link-45deg"></i> Supplier Details</a></li>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="User"><i class="bi bi-person"></i> Users</a>
-        </li>
+        <li class="nav-item"><a class="nav-link" href="Dashboard"><i class="bi bi-house-door"></i> Dashboard</a></li>
+        <li class="nav-item"><a class="nav-link" href="products"><i class="bi bi-box-seam"></i> Products</a></li>
+        <li class="nav-item"><a class="nav-link active" href="suppliers"><i class="bi bi-truck"></i> Suppliers</a></li>
+        <li class="nav-item"><a class="nav-link" href="supplierdetail"><i class="bi bi-link-45deg"></i> Supplier Details</a></li>
+        <li class="nav-item"><a class="nav-link" href="User"><i class="bi bi-person"></i> Users</a></li>
       </ul>
     </div>
     <div class="bottom-links px-3">
@@ -127,28 +117,16 @@
       <table class="table table-bordered table-hover text-center align-middle bg-white">
         <thead>
           <tr>
-            <th>SupplierID</th>
+            <th>ID</th>
             <th>Name</th>
             <th>Contact</th>
             <th>Website</th>
-            <th>ManagerID</th>
             <th>Created At</th>
             <th>Actions</th>
           </tr>
         </thead>
-        <tbody>
-          <tr>
-            <td>1</td>
-            <td>WebstaurantStore</td>
-            <td><a href="tel:+18005551234">+1 (800) 555-1234</a></td>
-            <td><a href="https://www.webstaurantstore.com/" target="_blank">webstaurantstore.com</a></td>
-            <td></td>
-            <td>2025-03-10 10:00</td>
-            <td>
-              <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#editSupplierModal"><i class="bi bi-pencil-square"></i></button>
-              <button class="btn btn-sm btn-danger ms-2"><i class="bi bi-trash"></i></button>
-            </td>
-          </tr>
+        <tbody id="supplier-table-body">
+          <!-- dynamic rows will go here -->
         </tbody>
       </table>
     </div>
@@ -157,17 +135,16 @@
   <!-- Add Supplier Modal -->
   <div class="modal fade" id="addSupplierModal" tabindex="-1" aria-labelledby="addSupplierLabel" aria-hidden="true">
     <div class="modal-dialog">
-      <form class="modal-content">
+      <form class="modal-content" id="addSupplierForm">
         <div class="modal-header bg-warning">
-          <h5 class="modal-title" id="addSupplierLabel">Add Supplier</h5>
+          <h5 class="modal-title">Add Supplier</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
         </div>
         <div class="modal-body">
-          <input type="text" class="form-control mb-2" placeholder="Name" required>
-          <input type="text" class="form-control mb-2" placeholder="Contact Info" required>
-          <input type="url" class="form-control mb-2" placeholder="Website">
-          <input type="text" class="form-control mb-2" placeholder="ManagerID">
-          <input type="datetime-local" class="form-control mb-2" placeholder="Created At" value="">
+          <input type="text" class="form-control mb-2" name="name" placeholder="Name" required>
+          <input type="text" class="form-control mb-2" name="contact" placeholder="Contact Info" required>
+          <input type="url" class="form-control mb-2" name="website" placeholder="Website">
+          <input type="datetime-local" class="form-control mb-2" name="created" placeholder="Created At">
         </div>
         <div class="modal-footer">
           <button type="submit" class="btn btn-success">Add Supplier</button>
@@ -177,29 +154,70 @@
     </div>
   </div>
 
-  <!-- Edit Supplier Modal -->
-  <div class="modal fade" id="editSupplierModal" tabindex="-1" aria-labelledby="editSupplierLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <form class="modal-content">
-        <div class="modal-header bg-primary text-white">
-          <h5 class="modal-title" id="editSupplierLabel">Edit Supplier</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-        </div>
-        <div class="modal-body">
-          <input type="text" class="form-control mb-2" placeholder="Name" required>
-          <input type="text" class="form-control mb-2" placeholder="Contact Info" required>
-          <textarea class="form-control mb-2" placeholder="Address"></textarea>
-          <input type="url" class="form-control mb-2" placeholder="Website">
-          <input type="datetime-local" class="form-control mb-2" placeholder="Created At">
-        </div>
-        <div class="modal-footer">
-          <button type="submit" class="btn btn-primary">Save Changes</button>
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-        </div>
-      </form>
-    </div>
-  </div>
-
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    const tbody = document.getElementById("supplier-table-body");
+
+    function renderSuppliers(data) {
+      tbody.innerHTML = "";
+      data.forEach(s => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td>${s.SupplierID}</td>
+          <td>${s.Name}</td>
+          <td>${s.Contact}</td>
+          <td><a href="${s.Website}" target="_blank">${s.Website}</a></td>
+          <td>${s.CreatedAt || "-"}</td>
+          <td>
+            <button class="btn btn-sm btn-danger" onclick="deleteSupplier(${s.SupplierID})">
+              <i class="bi bi-trash"></i>
+            </button>
+          </td>
+        `;
+        tbody.appendChild(row);
+      });
+    }
+
+    async function loadSuppliers() {
+      const res = await fetch('/api/suppliers');
+      const data = await res.json();
+      renderSuppliers(data);
+    }
+
+    document.getElementById("addSupplierForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const form = e.target;
+      const payload = {
+        SupplierName: form.name.value,
+        ContactInfo: form.contact.value,
+        Website: form.website.value,
+        CreatedAt: new Date(form.created.value).toISOString()
+      };
+
+      const res = await fetch('/api/add-supplier', {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+
+      const result = await res.json();
+      alert(result.message);
+      form.reset();
+      bootstrap.Modal.getInstance(document.getElementById("addSupplierModal")).hide();
+      loadSuppliers();
+    });
+
+    async function deleteSupplier(id) {
+      if (!confirm("Delete this supplier?")) return;
+      const res = await fetch(`/api/delete-supplier/${id}`, {
+        method: "DELETE"
+      });
+      const result = await res.json();
+      alert(result.message);
+      loadSuppliers();
+    }
+
+    window.addEventListener("DOMContentLoaded", loadSuppliers);
+  </script>
 </body>
 </html>
