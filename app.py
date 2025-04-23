@@ -328,13 +328,16 @@ def get_users():
     users = []
     for row in rows:
         users.append({
-            "UserID": row.UserID,
-            "Username": row.Username,
-            "Email": row.Email,
-            "Role": row.Role,
-            "Password": row.Password,
-            "Status": row.Status
+            "UserID": row[0],
+            "Username": row[1],
+            "Email": row[2],
+            "Role": row[3],
+            "Password": row[4],
+            "Status": row[5]
         })
+
+    return jsonify(users)
+
 
     return jsonify(users)
 @app.route('/api/add-user', methods=['POST'])
