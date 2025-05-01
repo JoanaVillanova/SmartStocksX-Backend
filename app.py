@@ -9,8 +9,8 @@ CORS(app)
 # SQL Server Connection
 conn = pyodbc.connect(
     'DRIVER={ODBC Driver 17 for SQL Server};'
-    'SERVER=GRWILBANKS;'
-    'DATABASE=SmartStocksX;'
+    'SERVER=DESKTOP-T8Q4KAO;'
+    'DATABASE=StacksStocks;'
     'Trusted_Connection=yes;'
 )
 def role_required(allowed_roles):
@@ -202,18 +202,26 @@ def get_suppliers():
 @app.route('/api/add-supplier', methods=['POST'])
 def add_supplier():
     data = request.get_json()
-    cursor = conn.cursor()
-    cursor.execute("""
-        INSERT INTO Suppliers (Name, Contact, Website, CreatedAt)
-        VALUES (?, ?, ?, ?)
-    """, (
-        data.get('SupplierName'),
-        data.get('ContactInfo'),
-        data.get('Website'),
-        data.get('CreatedAt')
-    ))
-    conn.commit()
-    return jsonify({'message': 'Supplier added successfully'}), 201
+
+    name = data.get('Name')
+    contact = data.get('Contact')
+    website = data.get('Website')
+
+    # Basic validation: check if 'Name' is provided
+    if not name:
+        return jsonify({'message': 'Supplier name is required'}), 400
+
+    try:
+        cursor = conn.cursor()
+        cursor.execute("""
+            INSERT INTO Suppliers (Name, Contact, Website, CreatedAt)
+            VALUES (?, ?, ?, GETDATE())
+        """, (name, contact, website))
+        conn.commit()
+        return jsonify({'message': 'Supplier added successfully'}), 201
+    except Exception as e:
+        print(f"Error adding supplier: {e}")
+        return jsonify({'message': 'Error adding supplier'}), 500
 
 @app.route('/api/update-supplier/<int:supplier_id>', methods=['PUT'])
 def update_supplier(supplier_id):

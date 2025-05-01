@@ -176,23 +176,46 @@
   <!-- Add Product Modal -->
   <div class="modal fade" id="addProductModal" tabindex="-1" aria-labelledby="addProductLabel" aria-hidden="true">
     <div class="modal-dialog">
-      <form class="modal-content">
+      <form id="addProductForm" class="modal-content">
         <div class="modal-header bg-warning">
           <h5 class="modal-title" id="addProductLabel">Add Product</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
         </div>
         <div class="modal-body">
-          <input type="text" class="form-control mb-2" placeholder="Product Name" required>
+          <!-- Product Name -->
+          <input type="text" id="productName" class="form-control mb-2" placeholder="Product Name" required>
 
           <!-- Supplier Dropdown -->
           <select id="supplierSelect" class="form-control mb-2" required>
             <option value="">Select Supplier</option>
+            <!-- Options will be loaded dynamically -->
           </select>
 
-          <input type="text" class="form-control mb-2" placeholder="Category" required>
-          <input type="number" class="form-control mb-2" placeholder="Quantity" required>
-          <input type="text" class="form-control mb-2" placeholder="Brand">
-          <input type="number" class="form-control mb-2" placeholder="Threshold">
+          <!-- Category Dropdown -->
+          <select id="categorySelect" class="form-control mb-2" required>
+            <option value="" disabled selected>Select Category</option>
+            <option value="Boba">Boba</option>
+            <option value="Coffee">Coffee</option>
+            <option value="Food">Food</option>
+            <option value="Cleaning">Cleaning</option>
+            <option value="Syrup">Syrup</option>
+            <option value="Cup">Cup</option>
+            <option value="Liquid">Liquid</option>
+            <option value="Cream">Cream</option>
+            <option value="Powder">Powder</option>
+            <option value="Tea">Tea</option>
+            <option value="Utensils">Utensils</option>
+            <option value="Fruits">Fruits</option>
+          </select>
+
+          <!-- Quantity -->
+          <input type="number" id="quantity" class="form-control mb-2" placeholder="Quantity" required>
+
+          <!-- Brand -->
+          <input type="text" id="brand" class="form-control mb-2" placeholder="Brand">
+
+          <!-- Threshold -->
+          <input type="number" id="threshold" class="form-control mb-2" placeholder="Threshold">
         </div>
         <div class="modal-footer">
           <button type="submit" class="btn btn-success">Add Product</button>
@@ -201,7 +224,6 @@
       </form>
     </div>
   </div>
-
   <!-- Edit Product Modal -->
   <div class="modal fade" id="editProductModal" tabindex="-1" aria-labelledby="editProductLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -217,6 +239,15 @@
             <option value="Boba">Boba</option>
             <option value="Coffee">Coffee</option>
             <option value="Food">Food</option>
+            <option value="Cleaning">Cleaning</option>
+            <option value="Syrup">Syrup</option>
+            <option value="Cup">Cup</option>
+            <option value="Liquid">Liquid</option>
+            <option value="Cream">Cream</option>
+            <option value="Powder">Powder</option>
+            <option value="Tea">Tea</option>
+            <option value="Utensils">Utensils</option>
+            <option value="Fruits">Fruits</option>
           </select>
           <input type="number" class="form-control mb-2" placeholder="Quantity" required>
           <input type="text" class="form-control mb-2" placeholder="Brand">
